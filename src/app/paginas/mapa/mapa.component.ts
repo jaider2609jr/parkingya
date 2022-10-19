@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GooglePlaceDirective} from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { Map, tileLayer } from 'leaflet';
+import * as L from 'leaflet';
+
+
+
+
 
 @Component({
   selector: 'app-mapa',
@@ -23,11 +27,13 @@ export class MapaComponent implements OnInit {
   }
 
   ngAfterViewInit(): void{
-    const map = new Map('map').setView([10.98719,-74.78814], 13);
-    tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const map = L.map('map').setView([10.98719,-74.78814], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
+  (L.Control as any).geocoder().addTo(map);
+
   }
 
   public handleAddressChange(address: Address) {
